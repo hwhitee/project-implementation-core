@@ -14,16 +14,231 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      alert_solutions: {
+        Row: {
+          admin_id: string
+          alert_id: string
+          created_at: string
+          id: string
+          safety_measure: string | null
+          solution: string
+        }
+        Insert: {
+          admin_id: string
+          alert_id: string
+          created_at?: string
+          id?: string
+          safety_measure?: string | null
+          solution: string
+        }
+        Update: {
+          admin_id?: string
+          alert_id?: string
+          created_at?: string
+          id?: string
+          safety_measure?: string | null
+          solution?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alert_solutions_alert_id_fkey"
+            columns: ["alert_id"]
+            isOneToOne: false
+            referencedRelation: "alerts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      alerts: {
+        Row: {
+          address: string | null
+          ai_category: string | null
+          ai_confidence: number | null
+          ai_description: string | null
+          ai_verified: boolean | null
+          caption: string | null
+          created_at: string
+          id: string
+          image_url: string | null
+          latitude: number | null
+          longitude: number | null
+          status: Database["public"]["Enums"]["alert_status"]
+          type: Database["public"]["Enums"]["alert_type"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          ai_category?: string | null
+          ai_confidence?: number | null
+          ai_description?: string | null
+          ai_verified?: boolean | null
+          caption?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          status?: Database["public"]["Enums"]["alert_status"]
+          type: Database["public"]["Enums"]["alert_type"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          ai_category?: string | null
+          ai_confidence?: number | null
+          ai_description?: string | null
+          ai_verified?: boolean | null
+          caption?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          status?: Database["public"]["Enums"]["alert_status"]
+          type?: Database["public"]["Enums"]["alert_type"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          alert_id: string | null
+          created_at: string
+          id: string
+          message: string | null
+          read: boolean
+          title: string
+          type: string | null
+          user_id: string
+        }
+        Insert: {
+          alert_id?: string | null
+          created_at?: string
+          id?: string
+          message?: string | null
+          read?: boolean
+          title: string
+          type?: string | null
+          user_id: string
+        }
+        Update: {
+          alert_id?: string | null
+          created_at?: string
+          id?: string
+          message?: string | null
+          read?: boolean
+          title?: string
+          type?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_alert_id_fkey"
+            columns: ["alert_id"]
+            isOneToOne: false
+            referencedRelation: "alerts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      safety_measures: {
+        Row: {
+          category: string | null
+          content: string
+          created_at: string
+          created_by: string | null
+          id: string
+          title: string
+        }
+        Insert: {
+          category?: string | null
+          content: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          title: string
+        }
+        Update: {
+          category?: string | null
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      alert_status: "pending" | "confirmed" | "received"
+      alert_type: "yellow" | "red" | "women"
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +365,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      alert_status: ["pending", "confirmed", "received"],
+      alert_type: ["yellow", "red", "women"],
+      app_role: ["admin", "user"],
+    },
   },
 } as const
